@@ -1,8 +1,14 @@
 import React, { Component } from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 export class Albums extends Component {
   printAlbum() {
-    if (this.props.data_albums != null && this.props.data_users != null) {
+    var onclick = false;
+    if (
+      this.props.data_albums != null &&
+      this.props.data_users != null &&
+      !onclick
+    ) {
       return this.props.data_albums.map((albums) => {
         return this.props.data_users.map((users) => {
           // if (albums.id === 1) {
@@ -17,10 +23,12 @@ export class Albums extends Component {
                     textAlign: "left",
                   }}
                 >
-                  <p>User: {users.name}</p>
+                  <h3>User: {users.name} </h3>
+                  <h4>
+                    Title: <Link to={"/pics/"+ albums.userId}>{albums.title}</Link>
+                  </h4>
                   <p>UserId: {albums.userId}</p>
                   <p>Id: {albums.id}</p>
-                  <p>Title: {albums.title}</p>
                 </div>
               </React.Fragment>
             );
