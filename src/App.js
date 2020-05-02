@@ -5,8 +5,7 @@ import Search from "./components/Search";
 import Photos from "./components/Photos";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { storeAlbums } from "./actions";
-import StoreAlbums from "./actions/StoreAlbums";
+import getAlbums from "./actions/StoreAlbums";
 import {connect} from 'react-redux'
 
 
@@ -109,7 +108,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     storeAlbums: (list) => {
-      dispatch(StoreAlbums(list));
+      dispatch(getAlbums(list));
     }
   }
 }

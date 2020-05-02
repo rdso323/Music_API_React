@@ -16,11 +16,12 @@ export class Albums extends Component {
           if (users.id === albums.userId)
             return (
               <React.Fragment>
-                <div
+                <div data-test="loaded"
                   style={{
-                    width: "20%",
+                    width: "30%",
                     outline: "1px solid black",
                     textAlign: "left",
+                    float: "left"
                   }}
                 >
                   <h3>User: {users.name} </h3>
