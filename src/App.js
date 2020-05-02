@@ -4,13 +4,18 @@ import Albums from "./components/Albums";
 import Search from "./components/Search";
 import Photos from "./components/Photos";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { storeAlbums } from "./actions";
+import StoreAlbums from "./actions/StoreAlbums";
+import {connect} from 'react-redux'
+
 
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      data_albums: null,
+      //data_albums: null,
       data_users: null,
       data_photos: null,
       isLoaded: false,
@@ -21,7 +26,7 @@ class App extends Component {
     if (!this.state.isLoaded) {
       fetch("https://jsonplaceholder.typicode.com/albums")
         .then((res) => res.json())
-        .then((data_albums) => this.setState({ data_albums }));
+        .then(result => this.props.storeAlbums(result))
 
       fetch("https://jsonplaceholder.typicode.com/users")
         .then((res) => res.json())
@@ -68,12 +73,13 @@ class App extends Component {
     console.log("hiiiiii");
     this.fetchData();
     //this.fetchUsers();
-    console.log(this.state.data_albums);
+    //console.log(this.state.data_albums);
     console.log(this.state.data_users);
     console.log(this.state.data_photos);
   };
 
   render() {
+    const {data_albums} = this.props;
     return (
       <Router>
         <Switch>
@@ -81,13 +87,12 @@ class App extends Component {
             <Route exact path="/">
               <Search handleSubmit={this.handleSubmit} />
               <Albums
-                data_albums={this.state.data_albums}
+                data_albums={data_albums}
                 data_users={this.state.data_users}
               />
               {this.validator()}
             </Route>
-            <Route path="/pics/:topic" component = {Photos}>
-            </Route>
+            <Route path="/pics/:topic" component={Photos}></Route>
           </div>
         </Switch>
       </Router>
@@ -95,4 +100,18 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+      data_albums: state.data_albums
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    storeAlbums: (list) => {
+      dispatch(StoreAlbums(list));
+    }
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(App);
